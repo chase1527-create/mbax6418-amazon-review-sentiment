@@ -21,6 +21,115 @@
     "per_class_recall": {
       "POSITIVE": 1.0,
       "NEGATIVE": 0.8571428571428571
+    },
+    "emotion_comparison": {
+      "n": 100,
+      "n_both_present": 85,
+      "n_wordlist_no_match": 15,
+      "agreement_rate": 0.23529411764705882,
+      "sentiment_recheck_mismatches": 0,
+      "llm_emotion_distribution": {
+        "anger": 4,
+        "anticipation": 0,
+        "disgust": 1,
+        "fear": 0,
+        "joy": 89,
+        "sadness": 1,
+        "surprise": 0,
+        "trust": 5
+      },
+      "wordlist_emotion_distribution": {
+        "anger": 2,
+        "anticipation": 59,
+        "disgust": 1,
+        "fear": 0,
+        "joy": 21,
+        "sadness": 1,
+        "surprise": 0,
+        "trust": 1
+      },
+      "llm_vs_wordlist_confusion": {
+        "anger": {
+          "anger": 0,
+          "anticipation": 1,
+          "disgust": 0,
+          "fear": 0,
+          "joy": 1,
+          "sadness": 1,
+          "surprise": 0,
+          "trust": 1
+        },
+        "anticipation": {
+          "anger": 0,
+          "anticipation": 0,
+          "disgust": 0,
+          "fear": 0,
+          "joy": 0,
+          "sadness": 0,
+          "surprise": 0,
+          "trust": 0
+        },
+        "disgust": {
+          "anger": 0,
+          "anticipation": 1,
+          "disgust": 0,
+          "fear": 0,
+          "joy": 0,
+          "sadness": 0,
+          "surprise": 0,
+          "trust": 0
+        },
+        "fear": {
+          "anger": 0,
+          "anticipation": 0,
+          "disgust": 0,
+          "fear": 0,
+          "joy": 0,
+          "sadness": 0,
+          "surprise": 0,
+          "trust": 0
+        },
+        "joy": {
+          "anger": 2,
+          "anticipation": 51,
+          "disgust": 1,
+          "fear": 0,
+          "joy": 20,
+          "sadness": 0,
+          "surprise": 0,
+          "trust": 0
+        },
+        "sadness": {
+          "anger": 0,
+          "anticipation": 1,
+          "disgust": 0,
+          "fear": 0,
+          "joy": 0,
+          "sadness": 0,
+          "surprise": 0,
+          "trust": 0
+        },
+        "surprise": {
+          "anger": 0,
+          "anticipation": 0,
+          "disgust": 0,
+          "fear": 0,
+          "joy": 0,
+          "sadness": 0,
+          "surprise": 0,
+          "trust": 0
+        },
+        "trust": {
+          "anger": 0,
+          "anticipation": 5,
+          "disgust": 0,
+          "fear": 0,
+          "joy": 0,
+          "sadness": 0,
+          "surprise": 0,
+          "trust": 0
+        }
+      }
     }
   },
   "records": [
@@ -33,7 +142,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "anticipation",
+      "emotion_wordlist_scores": {
+        "anger": 1,
+        "anticipation": 3,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 3,
+        "sadness": 0,
+        "surprise": 3,
+        "trust": 2
+      }
     },
     {
       "index": 1,
@@ -44,7 +167,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "joy",
+      "emotion_wordlist_scores": {
+        "anger": 1,
+        "anticipation": 6,
+        "disgust": 1,
+        "fear": 0,
+        "joy": 7,
+        "sadness": 2,
+        "surprise": 4,
+        "trust": 3
+      }
     },
     {
       "index": 2,
@@ -55,7 +192,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "joy",
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 5,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 7,
+        "sadness": 0,
+        "surprise": 4,
+        "trust": 1
+      }
     },
     {
       "index": 3,
@@ -66,7 +217,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "anticipation",
+      "emotion_wordlist_scores": {
+        "anger": 1,
+        "anticipation": 8,
+        "disgust": 0,
+        "fear": 1,
+        "joy": 8,
+        "sadness": 1,
+        "surprise": 3,
+        "trust": 4
+      }
     },
     {
       "index": 4,
@@ -77,7 +242,21 @@
       "true_label": "NEGATIVE",
       "predicted_label": "NEGATIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "NEGATIVE",
+      "emotion_llm": "anger",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "joy",
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 5,
+        "disgust": 0,
+        "fear": 1,
+        "joy": 8,
+        "sadness": 1,
+        "surprise": 5,
+        "trust": 3
+      }
     },
     {
       "index": 5,
@@ -88,7 +267,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "joy",
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 0,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 1,
+        "sadness": 0,
+        "surprise": 0,
+        "trust": 0
+      }
     },
     {
       "index": 6,
@@ -99,7 +292,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "anticipation",
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 2,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 2,
+        "sadness": 0,
+        "surprise": 2,
+        "trust": 0
+      }
     },
     {
       "index": 7,
@@ -110,7 +317,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "anticipation",
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 1,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 1,
+        "sadness": 0,
+        "surprise": 1,
+        "trust": 0
+      }
     },
     {
       "index": 8,
@@ -121,7 +342,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "joy",
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 0,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 1,
+        "sadness": 0,
+        "surprise": 0,
+        "trust": 0
+      }
     },
     {
       "index": 9,
@@ -132,7 +367,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "anticipation",
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 1,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 0,
+        "sadness": 0,
+        "surprise": 0,
+        "trust": 0
+      }
     },
     {
       "index": 10,
@@ -143,7 +392,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "joy",
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 5,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 6,
+        "sadness": 0,
+        "surprise": 3,
+        "trust": 3
+      }
     },
     {
       "index": 11,
@@ -154,7 +417,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "trust",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "anticipation",
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 3,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 3,
+        "sadness": 0,
+        "surprise": 3,
+        "trust": 1
+      }
     },
     {
       "index": 12,
@@ -165,7 +442,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "anticipation",
+      "emotion_wordlist_scores": {
+        "anger": 1,
+        "anticipation": 2,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 2,
+        "sadness": 0,
+        "surprise": 2,
+        "trust": 1
+      }
     },
     {
       "index": 13,
@@ -176,7 +467,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "anticipation",
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 1,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 1,
+        "sadness": 0,
+        "surprise": 1,
+        "trust": 0
+      }
     },
     {
       "index": 14,
@@ -187,7 +492,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "anticipation",
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 1,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 1,
+        "sadness": 0,
+        "surprise": 1,
+        "trust": 1
+      }
     },
     {
       "index": 15,
@@ -198,7 +517,21 @@
       "true_label": "NEGATIVE",
       "predicted_label": "NEGATIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "NEGATIVE",
+      "emotion_llm": "anger",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "anticipation",
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 1,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 1,
+        "sadness": 0,
+        "surprise": 0,
+        "trust": 1
+      }
     },
     {
       "index": 16,
@@ -209,7 +542,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "anticipation",
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 2,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 1,
+        "sadness": 0,
+        "surprise": 1,
+        "trust": 0
+      }
     },
     {
       "index": 17,
@@ -220,7 +567,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "anticipation",
+      "emotion_wordlist_scores": {
+        "anger": 1,
+        "anticipation": 8,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 4,
+        "sadness": 0,
+        "surprise": 3,
+        "trust": 1
+      }
     },
     {
       "index": 18,
@@ -231,7 +592,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "anticipation",
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 2,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 2,
+        "sadness": 0,
+        "surprise": 1,
+        "trust": 1
+      }
     },
     {
       "index": 19,
@@ -242,7 +617,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "anticipation",
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 3,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 3,
+        "sadness": 0,
+        "surprise": 3,
+        "trust": 2
+      }
     },
     {
       "index": 20,
@@ -253,7 +642,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "anticipation",
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 2,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 2,
+        "sadness": 0,
+        "surprise": 2,
+        "trust": 2
+      }
     },
     {
       "index": 21,
@@ -264,7 +667,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "trust",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "anticipation",
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 2,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 2,
+        "sadness": 0,
+        "surprise": 2,
+        "trust": 2
+      }
     },
     {
       "index": 22,
@@ -275,7 +692,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "anticipation",
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 2,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 2,
+        "sadness": 0,
+        "surprise": 2,
+        "trust": 2
+      }
     },
     {
       "index": 23,
@@ -286,7 +717,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "anticipation",
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 2,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 2,
+        "sadness": 0,
+        "surprise": 2,
+        "trust": 2
+      }
     },
     {
       "index": 24,
@@ -297,7 +742,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "anticipation",
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 2,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 2,
+        "sadness": 0,
+        "surprise": 2,
+        "trust": 2
+      }
     },
     {
       "index": 25,
@@ -308,7 +767,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "anticipation",
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 2,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 2,
+        "sadness": 0,
+        "surprise": 2,
+        "trust": 2
+      }
     },
     {
       "index": 26,
@@ -319,7 +792,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "trust",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "anticipation",
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 2,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 2,
+        "sadness": 0,
+        "surprise": 2,
+        "trust": 2
+      }
     },
     {
       "index": 27,
@@ -330,7 +817,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "trust",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "anticipation",
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 2,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 2,
+        "sadness": 0,
+        "surprise": 2,
+        "trust": 2
+      }
     },
     {
       "index": 28,
@@ -341,7 +842,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "trust",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "anticipation",
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 2,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 2,
+        "sadness": 0,
+        "surprise": 2,
+        "trust": 2
+      }
     },
     {
       "index": 29,
@@ -352,7 +867,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "anticipation",
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 2,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 2,
+        "sadness": 0,
+        "surprise": 2,
+        "trust": 2
+      }
     },
     {
       "index": 30,
@@ -363,7 +892,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "anticipation",
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 2,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 2,
+        "sadness": 0,
+        "surprise": 1,
+        "trust": 1
+      }
     },
     {
       "index": 31,
@@ -374,7 +917,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": null,
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 0,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 0,
+        "sadness": 0,
+        "surprise": 0,
+        "trust": 0
+      }
     },
     {
       "index": 32,
@@ -385,7 +942,21 @@
       "true_label": "NEGATIVE",
       "predicted_label": "NEGATIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "NEGATIVE",
+      "emotion_llm": "anger",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "sadness",
+      "emotion_wordlist_scores": {
+        "anger": 1,
+        "anticipation": 0,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 0,
+        "sadness": 2,
+        "surprise": 0,
+        "trust": 1
+      }
     },
     {
       "index": 33,
@@ -396,7 +967,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "anticipation",
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 1,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 1,
+        "sadness": 0,
+        "surprise": 1,
+        "trust": 0
+      }
     },
     {
       "index": 34,
@@ -407,7 +992,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": null,
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 0,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 0,
+        "sadness": 0,
+        "surprise": 0,
+        "trust": 0
+      }
     },
     {
       "index": 35,
@@ -418,7 +1017,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "joy",
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 3,
+        "disgust": 0,
+        "fear": 2,
+        "joy": 5,
+        "sadness": 0,
+        "surprise": 5,
+        "trust": 1
+      }
     },
     {
       "index": 36,
@@ -429,7 +1042,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "anticipation",
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 5,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 5,
+        "sadness": 0,
+        "surprise": 4,
+        "trust": 0
+      }
     },
     {
       "index": 37,
@@ -440,7 +1067,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "anticipation",
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 1,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 1,
+        "sadness": 0,
+        "surprise": 0,
+        "trust": 0
+      }
     },
     {
       "index": 38,
@@ -451,7 +1092,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "anticipation",
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 2,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 1,
+        "sadness": 0,
+        "surprise": 1,
+        "trust": 0
+      }
     },
     {
       "index": 39,
@@ -462,7 +1117,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "anticipation",
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 1,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 1,
+        "sadness": 0,
+        "surprise": 1,
+        "trust": 0
+      }
     },
     {
       "index": 40,
@@ -473,7 +1142,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "anticipation",
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 2,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 2,
+        "sadness": 0,
+        "surprise": 2,
+        "trust": 0
+      }
     },
     {
       "index": 41,
@@ -484,7 +1167,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "anticipation",
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 1,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 1,
+        "sadness": 0,
+        "surprise": 0,
+        "trust": 1
+      }
     },
     {
       "index": 42,
@@ -495,7 +1192,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "anticipation",
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 2,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 2,
+        "sadness": 0,
+        "surprise": 1,
+        "trust": 2
+      }
     },
     {
       "index": 43,
@@ -506,7 +1217,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "anticipation",
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 1,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 1,
+        "sadness": 0,
+        "surprise": 0,
+        "trust": 0
+      }
     },
     {
       "index": 44,
@@ -517,7 +1242,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "anger",
+      "emotion_wordlist_scores": {
+        "anger": 2,
+        "anticipation": 2,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 2,
+        "sadness": 0,
+        "surprise": 2,
+        "trust": 2
+      }
     },
     {
       "index": 45,
@@ -528,7 +1267,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": null,
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 0,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 0,
+        "sadness": 0,
+        "surprise": 0,
+        "trust": 0
+      }
     },
     {
       "index": 46,
@@ -539,7 +1292,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "joy",
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 1,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 2,
+        "sadness": 0,
+        "surprise": 1,
+        "trust": 1
+      }
     },
     {
       "index": 47,
@@ -550,7 +1317,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "anger",
+      "emotion_wordlist_scores": {
+        "anger": 1,
+        "anticipation": 1,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 1,
+        "sadness": 0,
+        "surprise": 1,
+        "trust": 0
+      }
     },
     {
       "index": 48,
@@ -561,7 +1342,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "joy",
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 3,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 4,
+        "sadness": 0,
+        "surprise": 3,
+        "trust": 2
+      }
     },
     {
       "index": 49,
@@ -572,7 +1367,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": null,
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 0,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 0,
+        "sadness": 0,
+        "surprise": 0,
+        "trust": 0
+      }
     },
     {
       "index": 50,
@@ -583,7 +1392,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "anticipation",
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 5,
+        "disgust": 0,
+        "fear": 1,
+        "joy": 5,
+        "sadness": 0,
+        "surprise": 5,
+        "trust": 2
+      }
     },
     {
       "index": 51,
@@ -594,7 +1417,21 @@
       "true_label": "NEGATIVE",
       "predicted_label": "NEGATIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "NEGATIVE",
+      "emotion_llm": "disgust",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "anticipation",
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 3,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 2,
+        "sadness": 0,
+        "surprise": 2,
+        "trust": 1
+      }
     },
     {
       "index": 52,
@@ -605,7 +1442,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "joy",
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 5,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 6,
+        "sadness": 0,
+        "surprise": 4,
+        "trust": 3
+      }
     },
     {
       "index": 53,
@@ -616,7 +1467,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "joy",
+      "emotion_wordlist_scores": {
+        "anger": 1,
+        "anticipation": 4,
+        "disgust": 1,
+        "fear": 1,
+        "joy": 6,
+        "sadness": 1,
+        "surprise": 4,
+        "trust": 3
+      }
     },
     {
       "index": 54,
@@ -627,7 +1492,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "joy",
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 1,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 2,
+        "sadness": 0,
+        "surprise": 1,
+        "trust": 0
+      }
     },
     {
       "index": 55,
@@ -638,7 +1517,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": null,
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 0,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 0,
+        "sadness": 0,
+        "surprise": 0,
+        "trust": 0
+      }
     },
     {
       "index": 56,
@@ -649,7 +1542,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "anticipation",
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 2,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 1,
+        "sadness": 0,
+        "surprise": 1,
+        "trust": 0
+      }
     },
     {
       "index": 57,
@@ -660,7 +1567,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "joy",
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 3,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 6,
+        "sadness": 0,
+        "surprise": 3,
+        "trust": 2
+      }
     },
     {
       "index": 58,
@@ -671,7 +1592,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "joy",
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 3,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 4,
+        "sadness": 0,
+        "surprise": 2,
+        "trust": 1
+      }
     },
     {
       "index": 59,
@@ -682,7 +1617,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "anticipation",
+      "emotion_wordlist_scores": {
+        "anger": 1,
+        "anticipation": 2,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 2,
+        "sadness": 0,
+        "surprise": 2,
+        "trust": 0
+      }
     },
     {
       "index": 60,
@@ -693,7 +1642,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "anticipation",
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 4,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 4,
+        "sadness": 0,
+        "surprise": 4,
+        "trust": 1
+      }
     },
     {
       "index": 61,
@@ -704,7 +1667,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "anticipation",
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 2,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 2,
+        "sadness": 0,
+        "surprise": 1,
+        "trust": 1
+      }
     },
     {
       "index": 62,
@@ -715,7 +1692,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "anticipation",
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 1,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 1,
+        "sadness": 0,
+        "surprise": 1,
+        "trust": 0
+      }
     },
     {
       "index": 63,
@@ -726,7 +1717,21 @@
       "true_label": "NEGATIVE",
       "predicted_label": "NEGATIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "NEGATIVE",
+      "emotion_llm": "anger",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "trust",
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 3,
+        "disgust": 0,
+        "fear": 2,
+        "joy": 2,
+        "sadness": 2,
+        "surprise": 1,
+        "trust": 5
+      }
     },
     {
       "index": 64,
@@ -737,7 +1742,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "joy",
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 6,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 7,
+        "sadness": 0,
+        "surprise": 5,
+        "trust": 3
+      }
     },
     {
       "index": 65,
@@ -748,7 +1767,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "disgust",
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 0,
+        "disgust": 1,
+        "fear": 0,
+        "joy": 0,
+        "sadness": 1,
+        "surprise": 0,
+        "trust": 0
+      }
     },
     {
       "index": 66,
@@ -759,7 +1792,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "joy",
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 3,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 4,
+        "sadness": 0,
+        "surprise": 2,
+        "trust": 2
+      }
     },
     {
       "index": 67,
@@ -770,7 +1817,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": null,
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 0,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 0,
+        "sadness": 0,
+        "surprise": 0,
+        "trust": 0
+      }
     },
     {
       "index": 68,
@@ -781,7 +1842,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": null,
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 0,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 0,
+        "sadness": 0,
+        "surprise": 0,
+        "trust": 0
+      }
     },
     {
       "index": 69,
@@ -792,7 +1867,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": null,
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 0,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 0,
+        "sadness": 0,
+        "surprise": 0,
+        "trust": 0
+      }
     },
     {
       "index": 70,
@@ -803,7 +1892,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "anticipation",
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 8,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 7,
+        "sadness": 0,
+        "surprise": 5,
+        "trust": 3
+      }
     },
     {
       "index": 71,
@@ -814,7 +1917,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "anticipation",
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 4,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 3,
+        "sadness": 0,
+        "surprise": 1,
+        "trust": 2
+      }
     },
     {
       "index": 72,
@@ -825,7 +1942,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "joy",
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 3,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 4,
+        "sadness": 0,
+        "surprise": 3,
+        "trust": 0
+      }
     },
     {
       "index": 73,
@@ -836,7 +1967,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "anticipation",
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 1,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 1,
+        "sadness": 0,
+        "surprise": 1,
+        "trust": 1
+      }
     },
     {
       "index": 74,
@@ -847,7 +1992,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": null,
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 0,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 0,
+        "sadness": 0,
+        "surprise": 0,
+        "trust": 0
+      }
     },
     {
       "index": 75,
@@ -858,7 +2017,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "anticipation",
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 1,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 1,
+        "sadness": 0,
+        "surprise": 0,
+        "trust": 1
+      }
     },
     {
       "index": 76,
@@ -869,7 +2042,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "joy",
+      "emotion_wordlist_scores": {
+        "anger": 1,
+        "anticipation": 3,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 4,
+        "sadness": 0,
+        "surprise": 2,
+        "trust": 1
+      }
     },
     {
       "index": 77,
@@ -880,7 +2067,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": null,
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 0,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 0,
+        "sadness": 0,
+        "surprise": 0,
+        "trust": 0
+      }
     },
     {
       "index": 78,
@@ -891,7 +2092,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": null,
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 0,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 0,
+        "sadness": 0,
+        "surprise": 0,
+        "trust": 0
+      }
     },
     {
       "index": 79,
@@ -902,7 +2117,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": null,
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 0,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 0,
+        "sadness": 0,
+        "surprise": 0,
+        "trust": 0
+      }
     },
     {
       "index": 80,
@@ -913,7 +2142,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "anticipation",
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 2,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 1,
+        "sadness": 1,
+        "surprise": 2,
+        "trust": 0
+      }
     },
     {
       "index": 81,
@@ -924,7 +2167,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "anticipation",
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 1,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 1,
+        "sadness": 0,
+        "surprise": 1,
+        "trust": 0
+      }
     },
     {
       "index": 82,
@@ -935,7 +2192,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "anticipation",
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 2,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 2,
+        "sadness": 0,
+        "surprise": 1,
+        "trust": 1
+      }
     },
     {
       "index": 83,
@@ -946,7 +2217,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "anticipation",
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 2,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 2,
+        "sadness": 0,
+        "surprise": 2,
+        "trust": 1
+      }
     },
     {
       "index": 84,
@@ -957,7 +2242,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "anticipation",
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 2,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 2,
+        "sadness": 0,
+        "surprise": 2,
+        "trust": 2
+      }
     },
     {
       "index": 85,
@@ -968,7 +2267,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "anticipation",
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 4,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 4,
+        "sadness": 0,
+        "surprise": 3,
+        "trust": 3
+      }
     },
     {
       "index": 86,
@@ -979,7 +2292,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": null,
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 0,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 0,
+        "sadness": 0,
+        "surprise": 0,
+        "trust": 0
+      }
     },
     {
       "index": 87,
@@ -990,7 +2317,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "anticipation",
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 1,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 1,
+        "sadness": 0,
+        "surprise": 1,
+        "trust": 0
+      }
     },
     {
       "index": 88,
@@ -1001,7 +2342,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "anticipation",
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 2,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 2,
+        "sadness": 0,
+        "surprise": 1,
+        "trust": 0
+      }
     },
     {
       "index": 89,
@@ -1012,7 +2367,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "joy",
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 3,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 4,
+        "sadness": 0,
+        "surprise": 2,
+        "trust": 1
+      }
     },
     {
       "index": 90,
@@ -1023,7 +2392,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "anticipation",
+      "emotion_wordlist_scores": {
+        "anger": 1,
+        "anticipation": 4,
+        "disgust": 0,
+        "fear": 1,
+        "joy": 4,
+        "sadness": 0,
+        "surprise": 3,
+        "trust": 4
+      }
     },
     {
       "index": 91,
@@ -1034,7 +2417,21 @@
       "true_label": "NEGATIVE",
       "predicted_label": "NEGATIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "NEGATIVE",
+      "emotion_llm": "sadness",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "anticipation",
+      "emotion_wordlist_scores": {
+        "anger": 1,
+        "anticipation": 4,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 3,
+        "sadness": 0,
+        "surprise": 3,
+        "trust": 1
+      }
     },
     {
       "index": 92,
@@ -1045,7 +2442,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "joy",
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 3,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 4,
+        "sadness": 0,
+        "surprise": 3,
+        "trust": 3
+      }
     },
     {
       "index": 93,
@@ -1056,7 +2467,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "anticipation",
+      "emotion_wordlist_scores": {
+        "anger": 1,
+        "anticipation": 4,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 3,
+        "sadness": 0,
+        "surprise": 2,
+        "trust": 1
+      }
     },
     {
       "index": 94,
@@ -1067,7 +2492,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "anticipation",
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 2,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 2,
+        "sadness": 0,
+        "surprise": 1,
+        "trust": 1
+      }
     },
     {
       "index": 95,
@@ -1078,7 +2517,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "anticipation",
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 9,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 7,
+        "sadness": 1,
+        "surprise": 7,
+        "trust": 2
+      }
     },
     {
       "index": 96,
@@ -1089,7 +2542,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "joy",
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 0,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 2,
+        "sadness": 0,
+        "surprise": 0,
+        "trust": 0
+      }
     },
     {
       "index": 97,
@@ -1100,7 +2567,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": null,
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 0,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 0,
+        "sadness": 0,
+        "surprise": 0,
+        "trust": 0
+      }
     },
     {
       "index": 98,
@@ -1111,7 +2592,21 @@
       "true_label": "NEGATIVE",
       "predicted_label": "POSITIVE",
       "correct": false,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": null,
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 0,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 0,
+        "sadness": 0,
+        "surprise": 0,
+        "trust": 0
+      }
     },
     {
       "index": 99,
@@ -1122,7 +2617,21 @@
       "true_label": "POSITIVE",
       "predicted_label": "POSITIVE",
       "correct": true,
-      "error": null
+      "error": null,
+      "sentiment_llm_recheck": "POSITIVE",
+      "emotion_llm": "joy",
+      "emotion_llm_error": null,
+      "emotion_wordlist": "anticipation",
+      "emotion_wordlist_scores": {
+        "anger": 0,
+        "anticipation": 4,
+        "disgust": 0,
+        "fear": 0,
+        "joy": 4,
+        "sadness": 2,
+        "surprise": 3,
+        "trust": 3
+      }
     }
   ]
 }

@@ -13,7 +13,10 @@ ROOT = Path(__file__).resolve().parent.parent
 RUNS = ROOT / "runs"
 DASHBOARD = ROOT / "dashboard"
 
-REVIEW_FIELDS = ("index", "rating", "title", "text", "true_label", "predicted_label", "correct")
+REVIEW_FIELDS = (
+    "index", "rating", "title", "text", "true_label", "predicted_label", "correct",
+    "emotion_llm", "emotion_wordlist",
+)
 
 
 def build_run_payload(run_file: str, run_label: str, labels: list[str]) -> dict:
@@ -22,7 +25,7 @@ def build_run_payload(run_file: str, run_label: str, labels: list[str]) -> dict:
         "run_label": run_label,
         "labels": labels,
         "summary": data["summary"],
-        "records": [{k: r[k] for k in REVIEW_FIELDS} for r in data["records"]],
+        "records": [{k: r.get(k) for k in REVIEW_FIELDS} for r in data["records"]],
     }
 
 

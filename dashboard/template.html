@@ -24,6 +24,16 @@
     --status-critical: #d03b3b;
     --seq-100: #cde2fb; --seq-200: #9ec5f4; --seq-300: #6da7ec;
     --seq-400: #3987e5; --seq-500: #256abf; --seq-600: #184f95;
+    /* Emotion palette — fixed slot order (validated adjacent-pair CVD safety),
+       assigned to emotions in this same sequence wherever both appear together. */
+    --emo-sadness:      #2a78d6;
+    --emo-anticipation: #eb6834;
+    --emo-surprise:     #1baf7a;
+    --emo-joy:          #eda100;
+    --emo-disgust:      #e87ba4;
+    --emo-trust:        #008300;
+    --emo-fear:         #4a3aa7;
+    --emo-anger:        #e34948;
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
@@ -39,6 +49,14 @@
       --series-1:       #3987e5;
       --series-2:       #d95926;
       --series-3:       #199e70;
+      --emo-sadness:      #3987e5;
+      --emo-anticipation: #d95926;
+      --emo-surprise:     #199e70;
+      --emo-joy:          #c98500;
+      --emo-disgust:      #d55181;
+      --emo-trust:        #008300;
+      --emo-fear:         #9085e9;
+      --emo-anger:        #e66767;
     }
   }
 
@@ -284,6 +302,42 @@
     font-size: 13px;
   }
 
+  /* Emotion */
+  .badge.emo {
+    background: color-mix(in srgb, var(--emo-color, var(--muted)) 16%, transparent);
+    color: var(--emo-color, var(--muted));
+  }
+  .emotion-bars {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+  .emotion-bars h3 {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: var(--text-secondary);
+    margin: 0 0 12px;
+  }
+  .emo-row {
+    display: grid;
+    grid-template-columns: 90px 1fr 34px;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+    font-size: 12px;
+  }
+  .emo-row .name { color: var(--text-secondary); text-transform: capitalize; }
+  .emo-row .track {
+    height: 8px;
+    background: var(--gridline);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .emo-row .fill { height: 100%; border-radius: 4px; }
+  .emo-row .count { text-align: right; font-variant-numeric: tabular-nums; color: var(--muted); }
+
   footer.page-footer {
     margin-top: 24px;
     font-size: 12px;
@@ -313,6 +367,21 @@
   <section id="confusion-section">
     <h2>Where the mistakes cluster</h2>
     <div class="table-scroll" id="confusion-wrap"></div>
+  </section>
+
+  <section id="emotion-section">
+    <h2>Primary emotion — LLM vs. word list</h2>
+    <div class="stat-grid" id="emotion-stat-grid" style="margin-bottom:20px;"></div>
+    <div class="emotion-bars">
+      <div>
+        <h3>LLM-predicted</h3>
+        <div id="emo-bars-llm"></div>
+      </div>
+      <div>
+        <h3>NRC word-list</h3>
+        <div id="emo-bars-wordlist"></div>
+      </div>
+    </div>
   </section>
 
   <section id="reviews-section">
@@ -347,6 +416,8 @@
             <th>Text</th>
             <th>True</th>
             <th>Predicted</th>
+            <th>LLM emotion</th>
+            <th>Word-list emotion</th>
             <th></th>
           </tr>
         </thead>
@@ -373,6 +444,11 @@ function seriesColor(label) {
   if (label === "POSITIVE") return "var(--series-1)";
   if (label === "NEGATIVE") return "var(--series-2)";
   return "var(--series-3)";
+}
+const EMOTION_ORDER = ["sadness", "anticipation", "surprise", "joy", "disgust", "trust", "fear", "anger"];
+function emotionBadge(emotion) {
+  if (!emotion) return `<span class="badge emo" style="--emo-color:var(--muted);">—</span>`;
+  return `<span class="badge emo" style="--emo-color:var(--emo-${emotion});">${emotion}</span>`;
 }
 function stars(rating) {
   const n = Math.round(rating);
@@ -482,6 +558,8 @@ function renderReviewRows() {
       <td class="text">${escapeHtml(r.text.length > 160 ? r.text.slice(0, 160) + "…" : r.text)}</td>
       <td class="label"><span class="badge ${badgeClass(r.true_label)}">${r.true_label}</span></td>
       <td class="label"><span class="badge ${badgeClass(r.predicted_label ?? "—")}">${r.predicted_label ?? "—"}</span></td>
+      <td class="label">${emotionBadge(r.emotion_llm)}</td>
+      <td class="label">${emotionBadge(r.emotion_wordlist)}</td>
       <td class="status-icon ${r.correct ? "correct" : "wrong"}">${r.correct ? "✓" : "✕"}</td>
     </tr>
   `).join("");
@@ -518,12 +596,54 @@ function renderReviews(run) {
   renderReviewRows();
 }
 
+function renderEmotionSection(run) {
+  const ec = run.summary.emotion_comparison;
+  const section = document.getElementById("emotion-section");
+  if (!ec) { section.hidden = true; return; }
+
+  document.getElementById("emotion-stat-grid").innerHTML = `
+    <div class="stat-tile">
+      <div class="value">${(ec.agreement_rate * 100).toFixed(1)}%</div>
+      <div class="label">Agreement (of reviews where both methods gave an answer)</div>
+      <div class="sub">${ec.n_both_present} / ${ec.n} reviews</div>
+    </div>
+    <div class="stat-tile">
+      <div class="value">${ec.n_wordlist_no_match}</div>
+      <div class="label">No word-list match</div>
+      <div class="sub">text had no lexicon words at all</div>
+    </div>
+    <div class="stat-tile">
+      <div class="value">${ec.sentiment_recheck_mismatches}</div>
+      <div class="label">Sentiment re-check mismatches</div>
+      <div class="sub">vs. the original Step 2 prediction</div>
+    </div>
+  `;
+
+  function renderBars(containerId, dist) {
+    const total = Object.values(dist).reduce((a, b) => a + b, 0) || 1;
+    document.getElementById(containerId).innerHTML = EMOTION_ORDER.map(emo => {
+      const count = dist[emo] || 0;
+      const pct = (count / total) * 100;
+      return `
+        <div class="emo-row">
+          <span class="name">${emo}</span>
+          <span class="track"><span class="fill" style="width:${pct}%; background:var(--emo-${emo});"></span></span>
+          <span class="count">${count}</span>
+        </div>
+      `;
+    }).join("");
+  }
+  renderBars("emo-bars-llm", ec.llm_emotion_distribution);
+  renderBars("emo-bars-wordlist", ec.wordlist_emotion_distribution);
+}
+
 function render() {
   const run = DATA.binary;
   document.getElementById("run-label").textContent = run.run_label;
   document.getElementById("generated-at").textContent = new Date(DATA.generated_at).toLocaleString();
   renderStats(run);
   renderConfusion(run);
+  renderEmotionSection(run);
   renderReviews(run);
 }
 
