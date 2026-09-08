@@ -24,6 +24,10 @@
     --status-critical: #d03b3b;
     --seq-100: #cde2fb; --seq-200: #9ec5f4; --seq-300: #6da7ec;
     --seq-400: #3987e5; --seq-500: #256abf; --seq-600: #184f95;
+    /* Ordinal ramp (star rating, 1->5): light end clears the >=2:1 floor
+       (starts no lighter than step 250, per the dataviz skill's ordinal rule). */
+    --ord-1: #86b6ef; --ord-2: #5598e7; --ord-3: #2a78d6;
+    --ord-4: #1c5cab; --ord-5: #104281;
     /* Emotion palette — fixed slot order (validated adjacent-pair CVD safety),
        assigned to emotions in this same sequence wherever both appear together. */
     --emo-sadness:      #2a78d6;
@@ -339,6 +343,67 @@
   .emo-row .fill { height: 100%; border-radius: 4px; }
   .emo-row .count { text-align: right; font-variant-numeric: tabular-nums; color: var(--muted); }
 
+  /* Descriptive layer (Step 7) — same grid pattern as .emo-row throughout:
+     fixed-width label/count columns, 1fr track. A bar's width can only ever
+     shrink toward the track's own share of that layout, never toward zero
+     from a label pushing it — sidesteps the zero-width-bar failure mode. */
+  .descriptive-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 32px;
+  }
+  .descriptive-grid h3 {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: var(--text-secondary);
+    margin: 0 0 12px;
+  }
+  .bar-row {
+    display: grid;
+    grid-template-columns: 64px 1fr 40px;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 7px;
+    font-size: 12px;
+  }
+  .bar-row.wide-label { grid-template-columns: 100px 1fr 40px; }
+  .bar-row .name { color: var(--text-secondary); white-space: nowrap; }
+  .bar-row .track {
+    height: 14px;
+    background: var(--gridline);
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+  }
+  .bar-row .fill { height: 100%; border-radius: 4px; }
+  .bar-row .fill.outline {
+    background: transparent !important;
+    border: 2px solid var(--fill-color, var(--muted));
+    box-sizing: border-box;
+  }
+  .bar-row .count { text-align: right; font-variant-numeric: tabular-nums; color: var(--muted); }
+  .bar-legend {
+    display: flex;
+    gap: 16px;
+    font-size: 11px;
+    color: var(--text-secondary);
+    margin-bottom: 10px;
+  }
+  .bar-legend .swatch {
+    display: inline-block;
+    width: 10px; height: 10px;
+    border-radius: 2px;
+    margin-right: 5px;
+    vertical-align: -1px;
+  }
+  .bar-legend .swatch.outline {
+    background: transparent;
+    border: 2px solid var(--muted);
+    box-sizing: border-box;
+  }
+
   footer.page-footer {
     margin-top: 24px;
     font-size: 12px;
@@ -369,6 +434,28 @@
   <section id="confusion-section">
     <h2>Where the mistakes cluster</h2>
     <div class="table-scroll" id="confusion-wrap"></div>
+  </section>
+
+  <section id="descriptive-section">
+    <h2>Descriptive layer</h2>
+    <div class="descriptive-grid">
+      <div>
+        <h3>Star-rating distribution</h3>
+        <div id="stars-dist"></div>
+      </div>
+      <div>
+        <h3>True count vs. predicted count, per class</h3>
+        <div class="bar-legend">
+          <span><span class="swatch"></span>True</span>
+          <span><span class="swatch outline"></span>Predicted</span>
+        </div>
+        <div id="true-vs-pred"></div>
+      </div>
+      <div>
+        <h3>Recall by class — how often each was answered right</h3>
+        <div id="recall-bars"></div>
+      </div>
+    </div>
   </section>
 
   <section id="emotion-section">
@@ -533,6 +620,75 @@ function renderConfusion(run) {
   wrap.innerHTML = html;
 }
 
+function predictedCounts(run) {
+  // Column sums of the confusion matrix: how many reviews the model
+  // predicted into each class, regardless of what they truly were.
+  const cm = run.summary.confusion_matrix;
+  const counts = {};
+  for (const p of run.labels) {
+    counts[p] = run.labels.reduce((sum, t) => sum + (cm[t]?.[p] ?? 0), 0);
+  }
+  return counts;
+}
+
+function renderDescriptive(run) {
+  // --- Star-rating distribution ---
+  const starCounts = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+  for (const r of run.records) starCounts[Math.round(r.rating)]++;
+  const starTotal = run.records.length;
+  const starMax = Math.max(...Object.values(starCounts));
+  document.getElementById("stars-dist").innerHTML = [5, 4, 3, 2, 1].map(n => {
+    const count = starCounts[n];
+    const pct = starMax > 0 ? (count / starMax) * 100 : 0;
+    return `
+      <div class="bar-row">
+        <span class="name">${"★".repeat(n)}</span>
+        <span class="track"><span class="fill" style="width:${pct}%; background:var(--ord-${n});"></span></span>
+        <span class="count">${count}</span>
+      </div>
+    `;
+  }).join("");
+
+  // --- True vs. predicted count per class ---
+  const trueCounts = run.summary.class_distribution_true;
+  const predCounts = predictedCounts(run);
+  const grandMax = Math.max(...run.labels.map(l => Math.max(trueCounts[l] || 0, predCounts[l] || 0)));
+  document.getElementById("true-vs-pred").innerHTML = run.labels.map(label => {
+    const t = trueCounts[label] || 0;
+    const p = predCounts[label] || 0;
+    const tPct = grandMax > 0 ? (t / grandMax) * 100 : 0;
+    const pPct = grandMax > 0 ? (p / grandMax) * 100 : 0;
+    const color = seriesColor(label);
+    return `
+      <div class="bar-row wide-label">
+        <span class="name">${label} (true)</span>
+        <span class="track"><span class="fill" style="width:${tPct}%; background:${color};"></span></span>
+        <span class="count">${t}</span>
+      </div>
+      <div class="bar-row wide-label">
+        <span class="name">${label} (pred.)</span>
+        <span class="track"><span class="fill outline" style="width:${pPct}%; --fill-color:${color};"></span></span>
+        <span class="count">${p}</span>
+      </div>
+    `;
+  }).join("");
+
+  // --- Recall by class ---
+  const recall = run.summary.per_class_recall;
+  document.getElementById("recall-bars").innerHTML = run.labels.map(label => {
+    const r = recall[label];
+    const pct = r == null ? 0 : r * 100;
+    const color = seriesColor(label);
+    return `
+      <div class="bar-row wide-label">
+        <span class="name">${label}</span>
+        <span class="track"><span class="fill" style="width:${pct}%; background:${color};"></span></span>
+        <span class="count">${r == null ? "—" : pct.toFixed(0) + "%"}</span>
+      </div>
+    `;
+  }).join("");
+}
+
 const filterState = { correctness: "all", trueLabel: "all", predLabel: "all" };
 let ALL_RECORDS = [];
 
@@ -657,6 +813,7 @@ function renderRun(runKey) {
 
   renderStats(run);
   renderConfusion(run);
+  renderDescriptive(run);
   renderEmotionSection(run);
   renderReviews(run);
 }
