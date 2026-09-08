@@ -87,9 +87,13 @@ Confusion matrix (rows = true, columns = predicted):
 
 ## Screenshots
 
-<!-- TODO: screenshots pending — see screenshots/ folder -->
-<!-- ![Dashboard — binary run](screenshots/dashboard-binary.png) -->
-<!-- ![Dashboard — balanced 3-class run](screenshots/dashboard-balanced.png) -->
+**First 100, binary run:**
+
+![Dashboard — binary run](screenshots/dashboard-binary.png)
+
+**Balanced 150, three-class run:**
+
+![Dashboard — balanced 3-class run](screenshots/dashboard-balanced.png)
 
 ## Answers
 
