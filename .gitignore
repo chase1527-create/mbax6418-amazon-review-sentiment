@@ -4,3 +4,4 @@ __pycache__/
 .env
 Gift_Cards.jsonl.gz
 *.pdf
+.~lock.*#
