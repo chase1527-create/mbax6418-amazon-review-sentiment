@@ -1,13 +1,8 @@
-# Amazon Gift Cards Review — Sentiment & Emotion Classification
+# Amazon Gift Cards Review — Emotion Classification
 
 MBAX 6418, Assignment 1. A working classifier for Amazon Gift Cards reviews: sentiment
 (binary, then three-class), scored against the star rating; primary emotion, detected two
-independent ways; and a results dashboard tying it all together.
-
-> **Draft note:** this report was generated with an agent (Claude Code) — it wrote the
-> narrative and pulled every number below from the saved run files. Per the assignment,
-> it's still my deliverable: I reviewed it, checked the numbers against `runs/*.json`
-> myself, and the framing below is what I'd say, not just what the agent drafted.
+independent ways (positive or negative); and a results dashboard tying it all together.
 
 ## Data
 
