@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Amazon Gift Cards — Sentiment Classifier Results</title>
+<style>
+  :root {
+    color-scheme: light;
+    --surface-1:      #fcfcfb;
+    --page-plane:     #f9f9f7;
+    --text-primary:   #0b0b0b;
+    --text-secondary: #52514e;
+    --muted:          #898781;
+    --gridline:       #e1e0d9;
+    --baseline:       #c3c2b7;
+    --border:         rgba(11,11,11,0.10);
+    --series-1:       #2a78d6; /* POSITIVE */
+    --series-2:       #eb6834; /* NEGATIVE */
+    --series-3:       #1baf7a; /* NEUTRAL (step 6+) */
+    --status-good:     #0ca30c;
+    --status-warning:  #fab219;
+    --status-serious:  #ec835a;
+    --status-critical: #d03b3b;
+    --seq-100: #cde2fb; --seq-200: #9ec5f4; --seq-300: #6da7ec;
+    --seq-400: #3987e5; --seq-500: #256abf; --seq-600: #184f95;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --surface-1:      #1a1a19;
+      --page-plane:     #0d0d0d;
+      --text-primary:   #ffffff;
+      --text-secondary: #c3c2b7;
+      --muted:          #898781;
+      --gridline:       #2c2c2a;
+      --baseline:       #383835;
+      --border:         rgba(255,255,255,0.10);
+      --series-1:       #3987e5;
+      --series-2:       #d95926;
+      --series-3:       #199e70;
+    }
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--page-plane);
+    color: var(--text-primary);
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  main {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+  header.page-header {
+    margin-bottom: 32px;
+  }
+  header.page-header h1 {
+    font-size: 26px;
+    font-weight: 700;
+    margin: 0 0 6px;
+    letter-spacing: -0.01em;
+  }
+  header.page-header p {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 14px;
+  }
+  section {
+    background: var(--surface-1);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 20px;
+  }
+  section h2 {
+    font-size: 15px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-secondary);
+    margin: 0 0 18px;
+  }
+
+  /* Stat tiles */
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+  }
+  .stat-tile { min-width: 0; }
+  .stat-tile .value {
+    font-size: 34px;
+    font-weight: 700;
+    font-variant-numeric: proportional-nums;
+    line-height: 1.1;
+  }
+  .stat-tile .label {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-top: 4px;
+  }
+  .stat-tile .sub {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+  .imbalance-callout {
+    margin-top: 18px;
+    padding: 12px 14px;
+    border-radius: 8px;
+    background: color-mix(in srgb, var(--status-warning) 14%, transparent);
+    border: 1px solid color-mix(in srgb, var(--status-warning) 40%, transparent);
+    font-size: 13px;
+    color: var(--text-primary);
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .imbalance-callout .icon { flex: none; font-size: 15px; line-height: 1.4; }
+  .split-bar {
+    display: flex;
+    height: 10px;
+    border-radius: 5px;
+    overflow: hidden;
+    margin-top: 14px;
+  }
+  .split-bar .seg { height: 100%; }
+  .split-legend {
+    display: flex;
+    gap: 18px;
+    margin-top: 8px;
+    font-size: 12px;
+    color: var(--text-secondary);
+  }
+  .split-legend .swatch {
+    display: inline-block;
+    width: 9px; height: 9px;
+    border-radius: 2px;
+    margin-right: 6px;
+  }
+
+  /* Confusion matrix */
+  table.confusion {
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  table.confusion th, table.confusion td {
+    padding: 10px 16px;
+    text-align: center;
+    border: 1px solid var(--gridline);
+  }
+  table.confusion thead th {
+    color: var(--text-secondary);
+    font-weight: 600;
+    font-size: 12px;
+  }
+  table.confusion .corner {
+    border: none;
+    color: var(--muted);
+    font-size: 11px;
+    text-align: right;
+    vertical-align: bottom;
+    padding-bottom: 4px;
+  }
+  table.confusion .row-label {
+    color: var(--text-secondary);
+    font-weight: 600;
+    font-size: 12px;
+    text-align: right;
+  }
+  table.confusion td.cell {
+    font-variant-numeric: tabular-nums;
+    font-weight: 700;
+    font-size: 15px;
+    position: relative;
+  }
+  table.confusion td.cell .cell-tag {
+    display: block;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    margin-top: 2px;
+  }
+  table.confusion td.diag .cell-tag { color: var(--status-good); }
+  table.confusion td.off .cell-tag { color: var(--status-critical); }
+
+  /* Per-review table */
+  .table-scroll { overflow-x: auto; }
+  table.reviews {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  table.reviews th {
+    text-align: left;
+    padding: 8px 10px;
+    color: var(--text-secondary);
+    font-weight: 600;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    border-bottom: 1px solid var(--gridline);
+    white-space: nowrap;
+  }
+  table.reviews td {
+    padding: 10px;
+    border-bottom: 1px solid var(--gridline);
+    vertical-align: top;
+  }
+  table.reviews td.rating { font-variant-numeric: tabular-nums; color: var(--muted); white-space: nowrap; }
+  table.reviews td.title { font-weight: 600; max-width: 200px; }
+  table.reviews td.text { color: var(--text-secondary); max-width: 360px; }
+  table.reviews td.label { white-space: nowrap; }
+  .badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+  .badge.pos { background: color-mix(in srgb, var(--series-1) 16%, transparent); color: var(--series-1); }
+  .badge.neg { background: color-mix(in srgb, var(--series-2) 16%, transparent); color: var(--series-2); }
+  .badge.neu { background: color-mix(in srgb, var(--series-3) 16%, transparent); color: var(--series-3); }
+  .status-icon { font-weight: 700; }
+  .status-icon.correct { color: var(--status-good); }
+  .status-icon.wrong { color: var(--status-critical); }
+
+  footer.page-footer {
+    margin-top: 24px;
+    font-size: 12px;
+    color: var(--muted);
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+<main>
+  <header class="page-header">
+    <h1>Amazon Gift Cards — Sentiment Classifier</h1>
+    <p id="run-label">Loading…</p>
+  </header>
+
+  <section id="headline-section">
+    <h2>Headline numbers</h2>
+    <div class="stat-grid" id="stat-grid"></div>
+    <div class="imbalance-callout" id="imbalance-callout" hidden>
+      <span class="icon">⚠️</span>
+      <span id="imbalance-text"></span>
+    </div>
+    <div class="split-bar" id="split-bar"></div>
+    <div class="split-legend" id="split-legend"></div>
+  </section>
+
+  <section id="confusion-section">
+    <h2>Where the mistakes cluster</h2>
+    <div class="table-scroll" id="confusion-wrap"></div>
+  </section>
+
+  <section id="reviews-section">
+    <h2>Per-review detail</h2>
+    <p style="font-size:13px;color:var(--text-secondary);margin:-8px 0 14px;">
+      <span id="review-count"></span>
+    </p>
+    <div class="table-scroll">
+      <table class="reviews">
+        <thead>
+          <tr>
+            <th>Rating</th>
+            <th>Title</th>
+            <th>Text</th>
+            <th>True</th>
+            <th>Predicted</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="reviews-body"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <footer class="page-footer">
+    Generated <span id="generated-at"></span> — Amazon Reviews '23 (McAuley Lab, UC San Diego), Gift Cards category.
+  </footer>
+</main>
+
+<script>
+const DATA = /*__DASHBOARD_DATA__*/ null;
+
+function badgeClass(label) {
+  if (label === "POSITIVE") return "pos";
+  if (label === "NEGATIVE") return "neg";
+  return "neu";
+}
+function seriesColor(label) {
+  if (label === "POSITIVE") return "var(--series-1)";
+  if (label === "NEGATIVE") return "var(--series-2)";
+  return "var(--series-3)";
+}
+function stars(rating) {
+  const n = Math.round(rating);
+  return "★".repeat(n) + "☆".repeat(5 - n);
+}
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+  }[c]));
+}
+
+function renderStats(run) {
+  const s = run.summary;
+  const grid = document.getElementById("stat-grid");
+  const accuracyPct = (s.accuracy * 100).toFixed(1) + "%";
+  const tiles = [
+    { value: s.n_scored, label: "Reviews scored", sub: s.n_errors ? `${s.n_errors} error(s)` : null },
+    { value: accuracyPct, label: "Overall accuracy" },
+  ];
+  for (const label of run.labels) {
+    const recall = s.per_class_recall[label];
+    tiles.push({
+      value: recall == null ? "—" : (recall * 100).toFixed(1) + "%",
+      label: `${label} recall`,
+      sub: `${s.confusion_matrix[label][label]} / ${s.class_distribution_true[label]} correct`,
+    });
+  }
+  grid.innerHTML = tiles.map(t => `
+    <div class="stat-tile">
+      <div class="value">${t.value}</div>
+      <div class="label">${t.label}</div>
+      ${t.sub ? `<div class="sub">${t.sub}</div>` : ""}
+    </div>
+  `).join("");
+
+  // Class-imbalance split bar
+  const dist = s.class_distribution_true;
+  const total = Object.values(dist).reduce((a, b) => a + b, 0);
+  const bar = document.getElementById("split-bar");
+  const legend = document.getElementById("split-legend");
+  bar.innerHTML = run.labels.map(label => {
+    const pct = (dist[label] / total) * 100;
+    return `<div class="seg" style="width:${pct}%; background:${seriesColor(label)};"></div>`;
+  }).join("");
+  legend.innerHTML = run.labels.map(label => `
+    <span><span class="swatch" style="background:${seriesColor(label)};"></span>${label}: ${dist[label]} (${((dist[label]/total)*100).toFixed(0)}%)</span>
+  `).join("");
+
+  const maxShare = Math.max(...run.labels.map(l => dist[l] / total));
+  const callout = document.getElementById("imbalance-callout");
+  if (maxShare >= 0.7) {
+    callout.hidden = false;
+    const dominant = run.labels.find(l => dist[l] / total === maxShare);
+    document.getElementById("imbalance-text").textContent =
+      `This sample is skewed — ${(maxShare * 100).toFixed(0)}% of reviews are ${dominant}. ` +
+      `A model that always guessed ${dominant} would score ${(maxShare * 100).toFixed(0)}% accuracy without learning anything. ` +
+      `Check the per-class recall above, not just the headline number.`;
+  }
+}
+
+function renderConfusion(run) {
+  const labels = run.labels;
+  const cm = run.summary.confusion_matrix;
+  const wrap = document.getElementById("confusion-wrap");
+  let html = `<table class="confusion"><thead><tr><th class="corner">true ↓ / pred →</th>`;
+  for (const l of labels) html += `<th>${l}</th>`;
+  html += `</tr></thead><tbody>`;
+  for (const t of labels) {
+    html += `<tr><td class="row-label">${t}</td>`;
+    for (const p of labels) {
+      const count = cm[t][p] ?? 0;
+      const isDiag = t === p;
+      html += `<td class="cell ${isDiag ? "diag" : "off"}">${count}
+        <span class="cell-tag">${isDiag ? "correct" : "confused as " + p}</span>
+      </td>`;
+    }
+    html += `</tr>`;
+  }
+  html += `</tbody></table>`;
+  wrap.innerHTML = html;
+}
+
+function renderReviews(run) {
+  const body = document.getElementById("reviews-body");
+  document.getElementById("review-count").textContent = `${run.records.length} reviews`;
+  body.innerHTML = run.records.map(r => `
+    <tr>
+      <td class="rating">${stars(r.rating)}</td>
+      <td class="title">${escapeHtml(r.title)}</td>
+      <td class="text">${escapeHtml(r.text.length > 160 ? r.text.slice(0, 160) + "…" : r.text)}</td>
+      <td class="label"><span class="badge ${badgeClass(r.true_label)}">${r.true_label}</span></td>
+      <td class="label"><span class="badge ${badgeClass(r.predicted_label ?? "—")}">${r.predicted_label ?? "—"}</span></td>
+      <td class="status-icon ${r.correct ? "correct" : "wrong"}">${r.correct ? "✓" : "✕"}</td>
+    </tr>
+  `).join("");
+}
+
+function render() {
+  const run = DATA.binary;
+  document.getElementById("run-label").textContent = run.run_label;
+  document.getElementById("generated-at").textContent = new Date(DATA.generated_at).toLocaleString();
+  renderStats(run);
+  renderConfusion(run);
+  renderReviews(run);
+}
+
+render();
+</script>
+</body>
+</html>
