@@ -4,11 +4,14 @@ MBAX 6418, Assignment 1. A working classifier for Amazon Gift Cards reviews: sen
 (binary, then three-class), scored against the star rating; primary emotion, detected two
 independent ways (positive or negative); and a results dashboard tying it all together.
 
-## Data
+## Data source
 
-[Amazon Reviews '23](https://amazon-reviews-2023.github.io) (McAuley Lab, UC San Diego),
-**Gift Cards** category — 152,410 reviews, gzipped JSON Lines. Not committed to this repo
-(large, and re-downloadable from the source); see `scripts/data.py` for how it's read.
+Reviews come from [Amazon Reviews '23](https://amazon-reviews-2023.github.io) (McAuley Lab,
+UC San Diego), **Gift Cards** category — 152,410 reviews, gzipped JSON Lines, downloaded
+directly from
+[mcauleylab.ucsd.edu/.../Gift_Cards.jsonl.gz](https://mcauleylab.ucsd.edu/public_datasets/data/amazon_2023/raw/review_categories/Gift_Cards.jsonl.gz).
+Not committed to this repo (large, and re-downloadable from that link); see `scripts/data.py`
+for how it's read.
 
 ## Repo layout
 
@@ -94,78 +97,79 @@ Confusion matrix (rows = true, columns = predicted):
 
 ### 1. Why did the lopsided run look very accurate, and what did sampling equal amounts of each class change?
 
-The first-100 batch is 93% POSITIVE by chance of file order, so a model that *always*
-guessed POSITIVE would already score 93% accuracy without learning anything. The actual
-model scored 99% — only 6 points better than that trivial baseline — but the number "99%
-accuracy" on its own hides that almost the entire test was the easy class.
+The first test looked great — 99% accuracy — mostly just because of luck in the ordering.
+93 of the first 100 reviews happened to be positive. So if the model had just guessed
+positive every single time, it would have already scored 93% without learning anything. The
+real model only beat that lazy guess by 6 points.
 
-Pulling all 152,410 reviews and checking the true rating distribution makes this explicit:
-**88.5% POSITIVE, 9.3% NEGATIVE, 2.1% NEUTRAL**. Three-star reviews are genuinely rare —
-about 1 in 47 — so reading the first N rows in file order would almost never surface one.
-Once the sample is rebalanced to 50/class, accuracy drops to 71.3%, and the drop is
-entirely attributable to one class: POSITIVE and NEGATIVE recall barely moved (96% each,
-versus 100%/85.7% on the skewed sample), but NEUTRAL recall is only 22%. The skewed run
-wasn't measuring the model's real performance — it was measuring performance on the one
-class the model is already good at, weighted by how often that class happens to occur.
+When you look across the whole dataset, it's skewed the same way: about 88% positive, 9%
+negative, and 2% neutral.
 
-### 2. Where do the model's mistakes go — which classes get confused with which, and in what direction?
+Once I pulled a balanced sample (50 reviews from each category, randomly picked but seeded
+for consistency), accuracy dropped to 71%. The positive and negative scores barely moved —
+the entire drop came from neutral, which the model struggled with. Balancing didn't make the
+model worse; it just stopped letting the easy majority class hide a weakness.
 
-From the balanced-sample confusion matrix above: of 50 true NEUTRAL (3-star) reviews, only
-11 were correctly called NEUTRAL. **26 were called NEGATIVE and 13 were called POSITIVE** —
-so NEUTRAL fails toward NEGATIVE roughly twice as often as it fails toward POSITIVE.
+### 2. Look at where the model's mistakes go — which classes get confused with which, and in what direction?
 
-The reverse direction is much rarer: of 50 true NEGATIVE reviews, only 1 was called NEUTRAL
-(and 1 POSITIVE) — NEGATIVE recall is 96%. So the confusion isn't symmetric "NEUTRAL and
-NEGATIVE get mixed up with each other" — it's specifically that **lukewarm reviews read to
-the model as bad, far more than bad reviews read as lukewarm**. A 3-star review with a real
-but minor complaint tends to get judged the same as a 1-star review with a serious one.
+Most of the model's mistakes are concentrated in one place: the neutral reviews. Out of the
+50 reviews that were truly neutral, the model only got 11 correct. Of the ones it missed, 26
+got called negative and only 13 got called positive — so when the model is wrong about
+neutral, it leans toward calling it negative about twice as often as positive.
+
+In the other direction, the model is actually pretty reliable on negative reviews — only 1
+out of 50 true negative reviews got mistaken for neutral. This confirms the biggest error is
+specifically neutral reviews getting framed as negative.
 
 ### 3. How do the LLM's emotions and the word list's emotions differ, and why?
 
-They agree only 23.5% of the time, and the disagreement has a specific, traceable cause
-rather than being generic noise. The LLM calls 89/100 reviews "joy" — a reasonable read,
-since these are mostly satisfied gift-card reviews. The word list calls only 21/100 "joy"
-and instead calls 59/100 "anticipation."
+They only agree about 1 in 4 times (23.5%). The AI mostly said the reviews felt like "joy"
+(89 out of 100). The word-list method mostly said "anticipation" instead (59 out of 100).
 
-Looking at the actual NRC lexicon entries explains why: common words in this dataset —
-**"gift," "money," "good," "present," "birthday"** — are tagged with *both* `anticipation`
-and `joy` simultaneously (along with `positive`, `surprise`, `trust` in most cases). Since
-almost every gift-card review contains one of these words, both emotion scores climb
-together and tie constantly. My word-list scorer breaks ties alphabetically, and
-"anticipation" comes before "joy" — so nearly every tie resolves to anticipation. This
-isn't the word list detecting a different *emotion* in the text; it's a structural artifact
-of (a) the lexicon tagging common domain words with multiple emotions at once, and (b) an
-arbitrary tie-break rule that happens to favor one of them. Looking at where the LLM said
-"joy" specifically: of the 74 such reviews the word list could also score, it called 51 of
-them "anticipation," 20 "joy," and the rest something else — a direct look at the same
-mechanism.
+There's a quirk in the language being used: common words in these reviews — "gift," "money,"
+"good" — are tagged as both "anticipation" and "joy" at the same time. That tie has to be
+broken, since the model is required to give one answer; my code broke ties alphabetically, so
+"anticipation" beat "joy" almost every time.
 
-### 4. What bugs and issues came up, and how were they worked around?
+Looking only at the reviews where the AI said "joy," the word list agreed on "joy" just 20
+times, but called the same reviews "anticipation" 51 times. Bottom line: with the same
+reviews and the same words, the disagreement is really about how the tie gets broken, not
+about the two methods disagreeing on how the review actually feels.
 
-- **A silent truncation crash.** One review's emotion call returned `content=None`
-  (the model hadn't finished by the token cap), and the fallback text-parser crashed with
-  an unhelpful `'NoneType' object has no attribute 'upper'` instead of a clear error.
-  Fixed with an explicit empty-content guard that raises a readable `ValueError`.
-- **The same review kept failing after that fix.** Reproducing it directly showed the
-  model reliably burns 500+ tokens of internal reasoning on this one review before
-  answering — and, more surprisingly, that exact length wasn't perfectly stable
-  run-to-run at `temperature=0` (a known effect of floating-point non-determinism under
-  continuous batching on a shared, multi-tenant inference server). The fix was a taller
-  retry ladder (300 → 900 → 3,600 tokens) rather than special-casing one review, since the
-  underlying cause — a small number of reviews needing much more reasoning room than
-  average — could hit any review, not just this one.
-- **A confusing zero-width-bar risk in the dashboard.** Rather than debug that failure
-  mode after the fact, the descriptive-layer bar charts (Step 7) were built from the start
-  on a CSS Grid layout with fixed-width label and count columns and a flexible middle
-  track — a pattern that structurally can't let a text label consume a bar's width down to
-  zero, which is the specific bug the assignment calls out.
-- **A minor ordinal-color contrast bug**, caught before shipping: the star-rating bars
-  initially reused a sequential color ramp whose lightest steps are nearly invisible on
-  the light background. Switched to a ramp that clears the 2:1 contrast floor for ordinal
-  data.
-- **Re-running the emotion enrichment pass** was originally all-or-nothing — fixing one
-  failed record meant re-calling the model on all 100. Made it resumable (skip records
-  already enriched successfully) so a partial failure costs one retry, not a full re-run.
+### 4. What bugs and/or issues did you hit along the way, and how did you work around them?
+
+1. **One specific review kept causing problems**, and it took two passes to actually fix.
+   The first symptom was a crash: the AI's response for that review came back completely
+   empty, and the code choked on it with a confusing error instead of a clear one. That got
+   patched so it would fail with a readable error instead of crashing.
+
+   But the review kept failing even after that fix — the readable error was just showing the
+   same problem more clearly. The real cause turned out to be that this review needed a lot
+   more "thinking" time from the model before it could answer, using way more tokens than a
+   typical review. Even with the settings locked to make the model consistent every time
+   (temperature = 0), the amount of "thinking" it did on this review wasn't perfectly steady
+   between runs — a known quirk of how shared AI inference servers handle everyone's
+   requests at once. The actual fix was giving the model a lot more room to think before
+   giving up, rather than special-casing this one review.
+
+   The specific review, for reference: a 5-star review titled "No note attached to sent gift
+   card" — a genuinely mixed piece of text (glowing overall, but with a detailed embedded
+   complaint about a missing note feature), which is likely why it needed more reasoning than
+   a straightforwardly happy or unhappy review.
+
+2. **A layout-bug risk in the dashboard.** The assignment specifically warned about chart
+   bars that can shrink down to nothing because a text label crowds them out. This was
+   avoided from the start by building every bar chart so the label always has its own
+   locked-in space and can't squeeze the bar to zero.
+
+3. **A color-contrast bug caught before shipping.** The star-rating bars initially used
+   colors that were almost invisible against the light background. Swapped in colors that
+   actually show up.
+
+4. **An inefficient re-run process.** Early on, if one review failed while adding emotion
+   data to all 100 reviews, fixing it meant re-running all 100. The script was made
+   resumable — it now skips reviews that already succeeded — so a single failure costs one
+   retry, not a full re-run.
 
 ## What's not in this repo, and why
 
