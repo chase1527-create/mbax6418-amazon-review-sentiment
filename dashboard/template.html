@@ -230,6 +230,60 @@
   .status-icon.correct { color: var(--status-good); }
   .status-icon.wrong { color: var(--status-critical); }
 
+  /* Filters */
+  .filter-row {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: -8px 0 14px;
+  }
+  .filter-group { display: flex; align-items: center; gap: 6px; }
+  .filter-group label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: var(--muted);
+  }
+  .segmented {
+    display: inline-flex;
+    border: 1px solid var(--gridline);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .segmented button {
+    background: var(--surface-1);
+    color: var(--text-secondary);
+    border: none;
+    padding: 6px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    border-right: 1px solid var(--gridline);
+  }
+  .segmented button:last-child { border-right: none; }
+  .segmented button.active.all { background: var(--text-primary); color: var(--surface-1); }
+  .segmented button.active.correct { background: var(--status-good); color: #fff; }
+  .segmented button.active.wrong { background: var(--status-critical); color: #fff; }
+  .filter-row select {
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-primary);
+    background: var(--surface-1);
+    border: 1px solid var(--gridline);
+    border-radius: 8px;
+    padding: 6px 10px;
+  }
+  .filter-empty {
+    padding: 24px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 13px;
+  }
+
   footer.page-footer {
     margin-top: 24px;
     font-size: 12px;
@@ -263,7 +317,25 @@
 
   <section id="reviews-section">
     <h2>Per-review detail</h2>
-    <p style="font-size:13px;color:var(--text-secondary);margin:-8px 0 14px;">
+    <div class="filter-row">
+      <div class="filter-group">
+        <label>Show</label>
+        <div class="segmented" id="correctness-filter">
+          <button data-value="all" class="active all">All</button>
+          <button data-value="correct" class="correct">Correct</button>
+          <button data-value="wrong" class="wrong">Mismatched</button>
+        </div>
+      </div>
+      <div class="filter-group">
+        <label>True label</label>
+        <select id="true-label-filter"></select>
+      </div>
+      <div class="filter-group">
+        <label>Predicted label</label>
+        <select id="pred-label-filter"></select>
+      </div>
+    </div>
+    <p style="font-size:13px;color:var(--text-secondary);margin:-4px 0 14px;">
       <span id="review-count"></span>
     </p>
     <div class="table-scroll">
@@ -280,6 +352,7 @@
         </thead>
         <tbody id="reviews-body"></tbody>
       </table>
+      <div class="filter-empty" id="reviews-empty" hidden>No reviews match this filter.</div>
     </div>
   </section>
 
@@ -382,10 +455,27 @@ function renderConfusion(run) {
   wrap.innerHTML = html;
 }
 
-function renderReviews(run) {
+const filterState = { correctness: "all", trueLabel: "all", predLabel: "all" };
+let ALL_RECORDS = [];
+
+function matchesFilter(r) {
+  if (filterState.correctness === "correct" && !r.correct) return false;
+  if (filterState.correctness === "wrong" && r.correct) return false;
+  if (filterState.trueLabel !== "all" && r.true_label !== filterState.trueLabel) return false;
+  if (filterState.predLabel !== "all" && r.predicted_label !== filterState.predLabel) return false;
+  return true;
+}
+
+function renderReviewRows() {
+  const filtered = ALL_RECORDS.filter(matchesFilter);
   const body = document.getElementById("reviews-body");
-  document.getElementById("review-count").textContent = `${run.records.length} reviews`;
-  body.innerHTML = run.records.map(r => `
+  const empty = document.getElementById("reviews-empty");
+  document.getElementById("review-count").textContent =
+    filtered.length === ALL_RECORDS.length
+      ? `${ALL_RECORDS.length} reviews`
+      : `${filtered.length} of ${ALL_RECORDS.length} reviews`;
+
+  body.innerHTML = filtered.map(r => `
     <tr>
       <td class="rating">${stars(r.rating)}</td>
       <td class="title">${escapeHtml(r.title)}</td>
@@ -395,6 +485,37 @@ function renderReviews(run) {
       <td class="status-icon ${r.correct ? "correct" : "wrong"}">${r.correct ? "✓" : "✕"}</td>
     </tr>
   `).join("");
+  empty.hidden = filtered.length > 0;
+}
+
+function populateLabelFilter(selectEl, labels) {
+  selectEl.innerHTML = `<option value="all">All</option>` +
+    labels.map(l => `<option value="${l}">${l}</option>`).join("");
+}
+
+function wireFilters(run) {
+  const correctnessGroup = document.getElementById("correctness-filter");
+  correctnessGroup.addEventListener("click", (e) => {
+    const btn = e.target.closest("button[data-value]");
+    if (!btn) return;
+    filterState.correctness = btn.dataset.value;
+    for (const b of correctnessGroup.querySelectorAll("button")) b.classList.remove("active");
+    btn.classList.add("active");
+    renderReviewRows();
+  });
+
+  const trueSel = document.getElementById("true-label-filter");
+  const predSel = document.getElementById("pred-label-filter");
+  populateLabelFilter(trueSel, run.labels);
+  populateLabelFilter(predSel, run.labels);
+  trueSel.addEventListener("change", () => { filterState.trueLabel = trueSel.value; renderReviewRows(); });
+  predSel.addEventListener("change", () => { filterState.predLabel = predSel.value; renderReviewRows(); });
+}
+
+function renderReviews(run) {
+  ALL_RECORDS = run.records;
+  wireFilters(run);
+  renderReviewRows();
 }
 
 function render() {
