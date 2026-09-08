@@ -37,6 +37,11 @@ def main():
             "First 100 reviews, in file order — binary (POSITIVE / NEGATIVE)",
             ["POSITIVE", "NEGATIVE"],
         ),
+        "balanced": build_run_payload(
+            "balanced150.json",
+            "Balanced sample, 50/class, seed 42 — three-class (POSITIVE / NEUTRAL / NEGATIVE)",
+            ["POSITIVE", "NEUTRAL", "NEGATIVE"],
+        ),
     }
 
     template = (DASHBOARD / "template.html").read_text()

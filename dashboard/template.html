@@ -282,6 +282,7 @@
     border-right: 1px solid var(--gridline);
   }
   .segmented button:last-child { border-right: none; }
+  .segmented button.active { background: var(--text-primary); color: var(--surface-1); }
   .segmented button.active.all { background: var(--text-primary); color: var(--surface-1); }
   .segmented button.active.correct { background: var(--status-good); color: #fff; }
   .segmented button.active.wrong { background: var(--status-critical); color: #fff; }
@@ -351,6 +352,7 @@
   <header class="page-header">
     <h1>Amazon Gift Cards — Sentiment Classifier</h1>
     <p id="run-label">Loading…</p>
+    <div class="segmented" id="run-switcher" style="margin-top:12px;"></div>
   </header>
 
   <section id="headline-section">
@@ -637,14 +639,46 @@ function renderEmotionSection(run) {
   renderBars("emo-bars-wordlist", ec.wordlist_emotion_distribution);
 }
 
-function render() {
-  const run = DATA.binary;
+const RUN_KEYS = Object.keys(DATA).filter(k => k !== "generated_at");
+
+function renderRun(runKey) {
+  const run = DATA[runKey];
   document.getElementById("run-label").textContent = run.run_label;
   document.getElementById("generated-at").textContent = new Date(DATA.generated_at).toLocaleString();
+
+  // Reset filters — a filter value from one run's label set may not exist in another.
+  filterState.correctness = "all";
+  filterState.trueLabel = "all";
+  filterState.predLabel = "all";
+  const correctnessGroup = document.getElementById("correctness-filter");
+  for (const b of correctnessGroup.querySelectorAll("button")) {
+    b.classList.toggle("active", b.dataset.value === "all");
+  }
+
   renderStats(run);
   renderConfusion(run);
   renderEmotionSection(run);
   renderReviews(run);
+}
+
+function wireRunSwitcher() {
+  const switcher = document.getElementById("run-switcher");
+  const niceName = { binary: "First 100 (binary)", balanced: "Balanced 150 (3-class)" };
+  switcher.innerHTML = RUN_KEYS.map((key, i) => `
+    <button data-key="${key}" class="${i === 0 ? "active" : ""}">${niceName[key] || key}</button>
+  `).join("");
+  switcher.addEventListener("click", (e) => {
+    const btn = e.target.closest("button[data-key]");
+    if (!btn) return;
+    for (const b of switcher.querySelectorAll("button")) b.classList.remove("active");
+    btn.classList.add("active");
+    renderRun(btn.dataset.key);
+  });
+}
+
+function render() {
+  wireRunSwitcher();
+  renderRun(RUN_KEYS[0]);
 }
 
 render();
